@@ -13,8 +13,6 @@ SCREEN_TITLE = "Pong"
 class Ball(arcade.Sprite):
     pass
 
-
-
 class MyGame(arcade.Window):
     """
     Main application class.
@@ -30,9 +28,7 @@ class MyGame(arcade.Window):
         self.Player1 = None
         self.player2 = None
         self.ball = None
-
         self.move = None
-
 
     def setup(self):
         """ Set up the game here. Call this function to restart the game. """
@@ -56,12 +52,11 @@ class MyGame(arcade.Window):
         self.ball.center_y = SCREEN_HEIGHT / 2
         self.ball_list.append(self.ball)
 
-
     def on_draw(self):
         """ Render the screen. """
         arcade.start_render()
         # Code to draw the screen goes here
-        arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 2, 1000, [255,255,255])
+        arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 2, 1000, [255, 255, 255])
         self.player_list.draw()
         self.ball_list.draw()
 
@@ -77,7 +72,7 @@ class MyGame(arcade.Window):
         if key == arcade.key.SPACE:
             self.ball.angle = 0
             self.ball.forward(3)
- 
+
     def on_key_release(self, key, modiefiers):
         if key == arcade.key.W:
             self.Player1.change_y = 0
@@ -91,24 +86,22 @@ class MyGame(arcade.Window):
             pass
 
     def update(self, delta_time):
-            self.player_list.update()
-            self.ball_list.update()
-            hit = arcade.check_for_collision_with_list(self.ball, self.player_list)
-            if len(hit) != 0:
-                self.ball.stop()
-                if self.ball.angle == 0:
-                    self.ball.angle = 180
-                else:
-                    self.ball.angle = 0
-                self.ball.forward(3)
+        self.player_list.update()
+        self.ball_list.update()
+        hit = arcade.check_for_collision_with_list(self.ball, self.player_list)
+        if len(hit) != 0:
+            self.ball.stop()
+            if self.ball.angle == 0:
+                self.ball.angle = 180
+            else:
+                self.ball.angle = 0
+            self.ball.forward(3)
 
 def main():
     """ Main method """
     window = MyGame()
     window.setup()
-
     arcade.run()
-
 
 if __name__ == "__main__":
     main()
