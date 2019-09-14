@@ -10,8 +10,10 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Pong"
 
+
 class Ball(arcade.Sprite):
     pass
+
 
 class MyGame(arcade.Window):
     """
@@ -96,6 +98,7 @@ class MyGame(arcade.Window):
             else:
                 self.ball.angle = 0
             self.ball.forward(3)
+
 
 def main():
     """ Main method """
