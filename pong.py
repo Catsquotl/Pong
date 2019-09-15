@@ -6,13 +6,15 @@ import random
 import math
 
 # Constants
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Pong"
 
 
 class Ball(arcade.Sprite):
-    pass
+    def info(self):
+        print(self.boundary_bottom)
+        print(self.boundary_top)
 
 
 class MyGame(arcade.Window):
@@ -52,13 +54,16 @@ class MyGame(arcade.Window):
         self.ball = Ball("images/ball.png", 0.25)
         self.ball.center_x = SCREEN_WIDTH / 2
         self.ball.center_y = SCREEN_HEIGHT / 2
+        self.ball.boundary_top = SCREEN_HEIGHT
+        self.ball.boundary_bottom = 0
         self.ball_list.append(self.ball)
 
     def on_draw(self):
         """ Render the screen. """
         arcade.start_render()
         # Code to draw the screen goes here
-        arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 2, 1000, [255, 255, 255])
+        arcade.draw_rectangle_filled(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 2,
+                                     1000, [255, 255, 255])
         self.player_list.draw()
         self.ball_list.draw()
 
@@ -72,7 +77,7 @@ class MyGame(arcade.Window):
         if key == arcade.key.DOWN:
             self.Player2.change_y = -5
         if key == arcade.key.SPACE:
-            self.ball.angle = 0
+            self.ball.angle = 88
             self.ball.forward(3)
 
     def on_key_release(self, key, modiefiers):
@@ -90,6 +95,12 @@ class MyGame(arcade.Window):
     def update(self, delta_time):
         self.player_list.update()
         self.ball_list.update()
+        if self.ball.top >= SCREEN_HEIGHT:
+            self.ball.change_y = -3
+        elif self.ball.bottom <= 0 and self.ball.change_y == -3:
+            self.ball.change_y = 3
+
+        self.ball.info()
         hit = arcade.check_for_collision_with_list(self.ball, self.player_list)
         if len(hit) != 0:
             self.ball.stop()
